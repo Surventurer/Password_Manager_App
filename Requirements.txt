@@ -1,1 +1,1 @@
-1.  Python 3.8.0 and Kivy library must be install on the computer.
+-->  Python 3.8.0 and Kivy library must be install on the computer.
