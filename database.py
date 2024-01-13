@@ -162,30 +162,35 @@ class DataBase:
         connect.close()
 
     def validate(self, email, password):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
-        cur=connect.cursor()
-        cur.execute("select * from user")
-        s=DataBase.secure()
-        r=cur.fetchall()
-        if r != []:
-            for u in range(len(r)):
-                a1,a2=r[u][1],r[u][2]
-                while True:
-                    o=[]
-                    l=(a1,a2)
-                    if l==None:
+        try:
+            connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+            cur=connect.cursor()
+            cur.execute("select * from user")
+            s=DataBase.secure()
+            r=cur.fetchall()
+            if r != []:
+                for u in range(len(r)):
+                    a1,a2=r[u][1],r[u][2]
+                    while True:
+                        o=[]
+                        l=(a1,a2)
+                        if l==None:
+                            break
+                        for p in l:
+                            k=str(p)
+                            for a,b in s:
+                                k=k.replace(b,a)
+                            o.append(k)
                         break
-                    for p in l:
-                        k=str(p)
-                        for a,b in s:
-                            k=k.replace(b,a)
-                        o.append(k)
-                    break
-                if o[0]==email and o[1]==password:
-                    return True
-        else:
-            return False
-        connect.close()
+                    if o[0]==email and o[1]==password:
+                        return True
+            else:
+                return False
+            connect.close()
+        except Exception as error:
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
+            print(error)
     def userspersonal(self,email):
         pass
     def uspaac(self,email):
