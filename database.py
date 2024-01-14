@@ -194,21 +194,27 @@ class DataBase:
     def userspersonal(self,email):
         pass
     def uspaac(self,email):
-        emaill=email
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
-        cur=connect.cursor()
-        ll=DataBase.secure()
-        for s,t in ll:
-            email=email.replace(s,t)
-        q3="""DELETE FROM user WHERE email=%s"""
-        q4=(email,)
-        cur.execute(q3,q4)
-        connect.commit()
-        q1="""Drop table if exists `%s`"""
-        q2=(emaill,)
-        cur.execute(q1,q2)
-        connect.commit()
-        connect.close()
+        try:
+
+            emaill=email
+            connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+            cur=connect.cursor()
+            ll=DataBase.secure()
+            for s,t in ll:
+                email=email.replace(s,t)
+            q3="""DELETE FROM user WHERE email=%s"""
+            q4=(email,)
+            cur.execute(q3,q4)
+            connect.commit()
+            q1="""Drop table if exists `%s`"""
+            q2=(emaill,)
+            cur.execute(q1,q2)
+            connect.commit()
+            connect.close()
+        except Exception as error:
+            print(error)
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
         
     @staticmethod
     def get_date():

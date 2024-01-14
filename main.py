@@ -216,7 +216,7 @@ def deletesucess():
     
 def invalidDetails():
     pop = Popup(title='Invalid Details',
-                  content=Label(text='Invalid Name of Application or Username in Application.'),
+                  content=Label(text='Invalid Name of Application or Username \n                        in Application.'),
                   size_hint=(None, None), size=(400, 400))
     pop.open()
 
