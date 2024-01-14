@@ -12,19 +12,24 @@ class CreateAccountWindow(Screen):
     password = ObjectProperty(None)
     
     def submit(self):
-        if self.namee.text != "" and self.email.text != "" and self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
-            if self.password != "":
-                db.add_user(self.namee.text, self.email.text, self.password.text)
+        try:
+            if self.namee.text != "" and self.email.text != "" and self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
+                if self.password != "":
+                    db.add_user(self.namee.text, self.email.text, self.password.text)
 
-                self.reset()
+                    self.reset()
 
-                sm.current = "login"
+                    sm.current = "login"
+                else:
+                    invalidForm()
+                    self.reset()
             else:
                 invalidForm()
                 self.reset()
-        else:
-            invalidForm()
-            self.reset()
+        except Exception as error:
+            print(error)
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
             
     def login(self):
         self.reset()
@@ -72,11 +77,17 @@ class MainWindow(Screen):
 
     def on_enter(self, *args):
         global e
-        name, created = db.get_user(self.current)
-        e=self.current
-        self.n.text = "Account Name: " + name
-        self.email.text = "Email: " + self.current
-        self.created.text = "Created On: " + created
+        try:
+            name, created = db.get_user(self.current)
+            e=self.current
+            self.n.text = "Account Name: " + name
+            self.email.text = "Email: " + self.current
+            self.created.text = "Created On: " + created
+        except Exception as error:
+            print(error)
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
+        
     def btn(self):
         show_popup.show(self)
     def deleteaccount(self):
@@ -87,18 +98,23 @@ class AddPassword(Screen):
     username = ObjectProperty(None)
     password = ObjectProperty(None)
     def submit(self):
-        if self.namee.text != "" and self.username.text != "" and self.password.text != "" :
-            if self.password != "":
-                db.add_password(e,self.namee.text,self.username.text, self.password.text)
-                self.reset()
-                addsucess()
-                sm.current = "main"
+        try:
+            if self.namee.text != "" and self.username.text != "" and self.password.text != "" :
+                if self.password != "":
+                    db.add_password(e,self.namee.text,self.username.text, self.password.text)
+                    self.reset()
+                    addsucess()
+                    sm.current = "main"
+                else:
+                    invalidForm()
+                    self.reset()
             else:
                 invalidForm()
                 self.reset()
-        else:
-            invalidForm()
-            self.reset()
+        except Exception as error:
+            print(error)
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
     def Back(self):
         self.reset()
         sm.current = "main"
@@ -110,12 +126,17 @@ class AddPassword(Screen):
     
 class LookPassword(Screen):
         def on_enter(self):
-            d=db.show_records(e)
-            word=''
-            self.ids.word_label.text=""
-            for r in d:
-                word=f'{word}\n{r}'
-                self.ids.word_label.text=f'{word}'
+            try:
+                d=db.show_records(e)
+                word=''
+                self.ids.word_label.text=""
+                for r in d:
+                    word=f'{word}\n{r}'
+                    self.ids.word_label.text=f'{word}'
+            except Exception as error:
+                print(error)
+                pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+                pop.open()
         def Back(self):
             sm.current = "main"
         
@@ -123,18 +144,24 @@ class DeletePassword(Screen):
     namee = ObjectProperty(None)
     username = ObjectProperty(None)
     def submit(self):
-        if self.namee.text != "" and self.username.text != "":
-            if db.delpassval(e,self.namee.text,self.username.text)==True:
-                db.delete_password(e,self.namee.text,self.username.text)
-                self.reset()
-                deletesucess()
-                sm.current = "main"
+        try:
+
+            if self.namee.text != "" and self.username.text != "":
+                if db.delpassval(e,self.namee.text,self.username.text)==True:
+                    db.delete_password(e,self.namee.text,self.username.text)
+                    self.reset()
+                    deletesucess()
+                    sm.current = "main"
+                else:
+                    invalidDetails()
+                    self.reset()
             else:
-                invalidDetails()
+                invalidForm()
                 self.reset()
-        else:
-            invalidForm()
-            self.reset()
+        except Exception as error:
+            print(error)
+            pop = Popup(title='Network Error',content=Label(text='Unable to connect Server. Network Error!\nCHECK YOUR INTERNET CONNECTION !!'),size_hint=(None, None), size=(400, 400))
+            pop.open()
     def delbtn(self):
         if db.dvalidate(self.namee.text,self.username.text):
             self.reset()
