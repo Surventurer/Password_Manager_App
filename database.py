@@ -11,7 +11,7 @@ class DataBase:
         self.database=database
 
     def add_password(self,em,namee,username, password):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+        connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
         cur=connect.cursor()
         s=DataBase.secure()
         q1='''insert into `%s`(Name_of_Application,Username_in_Application,Password_in_Application) values(%s,%s,%s)'''
@@ -31,7 +31,7 @@ class DataBase:
 ("U","你352"),("V","वी87"),("W","瓦38"),("X","एक्स29"),("Y","是90"),("Z","जेड60"),(" ","!00!"))
         return s
     def delete_password(self,em,namee,username):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+        connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
         cur=connect.cursor()
         q3="""DELETE FROM `%s` WHERE Name_of_Application=%s and Username_in_Application=%s"""
         s=DataBase.secure()
@@ -43,7 +43,7 @@ class DataBase:
         connect.commit()
         connect.close()
     def show_records(self,em):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+        connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
         cur=connect.cursor()
         q1="select * from `%s`"
         q2=(em,)
@@ -69,7 +69,7 @@ class DataBase:
         return t
 
     def get_user(self, email):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+        connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH",host=self.host,user=self.user,passwd=self.passwd,database=self.database)
         cur=connect.cursor()
         cur.execute("select * from user")
         s=DataBase.secure()
@@ -95,7 +95,7 @@ class DataBase:
 
     def add_user(self, name, email, password):
         try:
-            connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+            connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
             cur=connect.cursor()
             cur.execute("select * from user")
             r=cur.fetchall()
@@ -144,7 +144,7 @@ class DataBase:
             print(error)
         connect.close()
     def delpassval(self,em,name,usernameapp):
-        connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+        connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
         cur=connect.cursor()
         q1="select * from `%s`"
         q2=(em,)
@@ -163,7 +163,7 @@ class DataBase:
 
     def validate(self, email, password):
         try:
-            connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+            connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
             cur=connect.cursor()
             cur.execute("select * from user")
             s=DataBase.secure()
@@ -197,7 +197,7 @@ class DataBase:
         try:
 
             emaill=email
-            connect=mysql.connector.connect(host=self.host,user=self.user,passwd=self.passwd,database=self.database)
+            connect=mysql.connector.connect(unix_socket="CC_MYSQL_PROXYSQL_SOCKET_PATH", host=self.host,user=self.user,passwd=self.passwd,database=self.database)
             cur=connect.cursor()
             ll=DataBase.secure()
             for s,t in ll:
